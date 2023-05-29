@@ -1,0 +1,27 @@
+<div class="wrapper">
+    <div class="header">
+        <span>Visibility:</span>
+        <button [class]="formField.visibilityStatus" (click)="toggleVisibility(formField.field)"
+            *ngFor="let formField of enchancedFieldsList">
+            {{ formField.label }}
+        </button>
+    </div>
+    <div class="body">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+            <ng-container *ngFor="let field of enchancedFieldsList">
+                <div class="field-block">
+                    <ng-container *ngIf="!field.hidden">
+                        <label>
+                            <sup *ngIf="field.mandatory">*</sup>
+                            <span>{{ field.label }}</span>
+                        </label>
+                        <ng-container
+                            *ngTemplateOutlet="fieldByType[field.type]; context: { $implicit: field.formControl }">
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+            <button class="btn" type="submit" [disabled]="formGroup.invalid">submit</button>
+        </form>
+    </div>
+</div>
